@@ -7,9 +7,9 @@ With this plugins, you can create many things:
 - Download methods
 - Administration, etc...
 
-We will need some programmers to help us and test ouer application (and create plugins, maby :))
+We will need some programmers to help us and test our application (and create plugins, maby :))
 
-You want to have MySQL? Just create a simple plugin who connects to a database ;) -you can use ouer MySQL class helper-
+You want to have MySQL? Just create a simple plugin who connects to a database ;) -you can use our MySQL class helper-
 
 
 OpenSource FTW!
