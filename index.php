@@ -15,4 +15,13 @@ require_once(__DIR__."/inc/classes.inc.php");
 if (file_exists(__DIR__."/install") && !file_exists(__DIR__."/install/.locked"))
         exit("<h1><font color='red'>The folder \"install\" is not locked. Have you finished the installation?</font></h1>");
 
+$core = new core(CORETYPE::DEBUG);
+$template = new template($core);
+$template->setHeader();
+echo $template->getHeader();
+$template->setBody();
+echo $template->getBody();
+$template->setCopyright();
+echo $template->getCopyright();
+
 ?>

@@ -10,4 +10,6 @@
  * @version of 11 avr. 2013 16:09:47
  */
 
+define("VERSION", "0.3.1");
+
 ?>
