@@ -1,9 +1,15 @@
 MyEpiCMS
 ========
 
-MyEpiCMS is a small and light CMS (Content Management System) who provides simple and fast Code edit.
-It is OpenSource and is created to help programmers who need a basical site.
+MyEpiCMS is a small and light CMS (Content Management System) API (Application Programming Interface) who provide a core where you can add plugins and templates.
+With this plugins, you can create many things:
+- Page gestionnary
+- Download methods
+- Administration, etc...
 
-The CMS is easy to edit -in the codes lines- and is fully configurable without needing to modify any code lines.
+We will need some programmers to help us and test ouer application (and create plugins, maby :))
 
-You can also create your mods/plugins and publish them!
+You want to have MySQL? Just create a simple plugin who connects to a database ;) -you can use ouer MySQL class helper-
+
+
+OpenSource FTW!
