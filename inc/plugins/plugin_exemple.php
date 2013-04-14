@@ -45,6 +45,13 @@ class plugin_exemple {
     public function onCopyrightLoad() {
         
     }
+    
+    /**
+     * Verify if it's a plugin. Return true if you want to be a plugin, false if not.
+     */
+    public function isPlugin() {
+        return (true);
+    }
 }
 
 ?>

@@ -32,6 +32,7 @@ class core {
     private $classfiles = array();
     private $coretype;
     private $template = "default";
+    private $plugins_prepare = array();
     
     /**
      * Called on the construction of the object
@@ -73,25 +74,6 @@ class core {
     }
     
     /**
-     * Those functions will be used in the plugins
-     */
-    public function onHeaderLoad() {
-        
-    }
-    
-    public function onBodyLoad() {
-        
-    }
-    
-    public function onMenuLoad() {
-        
-    }
-    
-    public function onCopyrightLoad() {
-        
-    }
-    
-    /**
      * Return the Header contents after a loadHeader
      * @return Array Header
      */
@@ -125,16 +107,48 @@ class core {
     
     /**
      * Return True if the class is correctly added. False if not.
-     * 
      * @param String $classfilename the file class name
      * @return Boolean
      */
     public function addPluginClass($classfilename) {
-        if (!file_exist(__DIR__."../plugins/classes/".$classfilename))
+        if (!file_exists(PLUGINS_PATH.$classfilename))
                 return (false);
-        $this->classfiles[$classfilename]['path'] = "/inc/plugins/classes/".$classfilename;
+        $this->classfiles[$classfilename]['path'] = PLUGINS_PATH.$classfilename;
         $this->classfiles[$classfilename]['name'] = str_replace(".php", "", $classfilename);
+        $this->classfiles[$classfilename]['object'] = new $this->classfiles[$classfilename]['name']();
         return (true);
+    }
+    
+    public function loadPlugins()
+    {
+        $i = 0;
+        $errors = array();
+        foreach ($this->plugins_prepare as $value)
+        {
+            $classname = str_replace(".php", "", $value);
+            $class = new $classname();
+            if ($class->isPlugin() && !$this->addPluginClass($value))
+            {
+                $errors[$i]['class_name'] = $value;
+                $errors[$i]['error_type'] = "The plugin '$classname' didn't exist.";
+                $i++;
+            }
+            unset($class);
+        }
+        if (count($errors) != 0)
+            return ($errors);
+        return (true);
+    }
+    
+    /**
+     * Prepare the list of the plugins name
+     * @param String $classfilename
+     */
+    public function preparePlugin($classfilename)
+    {
+        static $i = 0;
+        
+        $this->plugins_prepare[$i++] = $classfilename;
     }
     
     /**
@@ -159,7 +173,7 @@ class core {
      * @return Boolean
      */
     public function setTemplate($templatefolder) {
-        if (file_exists(__DIR__."../../templates/".$templatefolder)) {
+        if (file_exists(TEMPLATE_PATH.$templatefolder)) {
             $this->template = $templatefolder;
             return (true);
         }

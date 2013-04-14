@@ -16,7 +16,16 @@ if (file_exists(__DIR__."/install") && !file_exists(__DIR__."/install/.locked"))
         exit("<h1><font color='red'>The folder \"install\" is not locked. Have you finished the installation?</font></h1>");
 
 $core = new core(CORETYPE::DEBUG);
+require_once PLUGINS_PATH."register_plugins.php";
+if (($tab = $core->loadPlugins()) !== true)
+{
+    foreach ($tab as $value)
+        echo "<font color='red'>ERROR with plugin '".$value['class_name']."': ".$value['error_type']."</font><br />";
+    exit();
+}
 $template = new template($core);
+if (!$template->isValidTemplate())
+    exit("<h1><font color='red'>Template is not valid.</font></h1>Put a valid template in the template path.");
 $template->setHeader();
 echo $template->getHeader();
 $template->setBody();

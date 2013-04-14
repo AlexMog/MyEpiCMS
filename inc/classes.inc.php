@@ -11,7 +11,12 @@
 
 function loadClass($classname)
 {
-    require 'classes/'.$classname.'.php';
+    if (file_exists(CLASS_PATH.$classname.'.php'))
+        require_once CLASS_PATH.$classname.'.php';
+    else if (file_exists(PLUGINS_PATH.$classname.'.php'))
+            require_once PLUGINS_PATH.$classname.'.php';
+    else
+        exit ("Class $classname not found...");
 }
 
 spl_autoload_register('loadClass');

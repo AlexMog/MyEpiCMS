@@ -17,10 +17,20 @@ class template {
     private $copyright;
     
     /** On template object creation **/
-    public function __construct($core) {
+    public function __construct(core $core) {
         $this->core = $core;
     }
 
+    /**
+     * Used to verify if the template is a valid one.
+     * @return boolean True if valid template
+     */
+    public function isValidTemplate() {
+        if (!file_exists(TEMPLATE_PATH.$this->core->getTemplate()))
+            return (false);
+        return (true);
+    }
+    
     public function setHeader() {
         
     }
