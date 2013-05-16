@@ -40,7 +40,7 @@ class plugin_exemple {
      * Will be called with the LoadBody
      */
     public function onBodyLoad() {
-        $this->core->addReplacer("{test}", "Hello World", $this);
+        //$this->core->addReplacer("{test}", "Hello World", $this);
     }
     
     /**

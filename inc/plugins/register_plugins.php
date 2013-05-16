@@ -7,6 +7,6 @@
  * 	@filesource register_plugins.php
  * */
 
-$core->preparePlugin("plugin_exemple.php")
+$core->preparePlugin("pageGestionnary.php");
 
 ?>
