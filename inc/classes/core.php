@@ -15,24 +15,12 @@ class CORETYPE {
 }
 
 class core {
-    /** Design public variable (only contain HTML/text) **/
-    private $header = array(
-        'title' => 'Title test'
-    );
-    private $body = array(
-        'body_content' => 'test'
-    );
-    private $menu = array(
-        'links' => array(
-            0 => array('name', 'link'),
-            1 => array('name2', 'link2')
-        )
-    );
-    private $copyright = array();
     private $classfiles = array();
     private $coretype;
     private $template = "default";
     private $plugins_prepare = array();
+    /* Var who define the replacers */
+    private $replacers;
     
     /**
      * Called on the construction of the object
@@ -42,11 +30,52 @@ class core {
     }
     
     /**
+     * Add a replacer to the actual loader.
+     * 
+     * @staticvar int $i Counter
+     * @param type $rech What to be find
+     * @param type $repl The replacement
+     * @param type $object The plugin object
+     */
+    public function addReplacer($rech, $repl, $object) {
+        static $i = 0;
+        
+        foreach ($this->replacers as $replacer) {
+            if ($replacer['rech'] == $rech) {
+                if (method_exists($object, "getName") && method_exists($replacer['addBy'], "getName"))
+                    echo "Conflict with plugin ".$replacer['addBy']->getName()." and ".$object->getName()."";
+                else
+                    echo "Conflict of plugins finded. The \"getName\" method is not set. Cannot find the plugin who is conflicting.";
+                exit();
+            }
+        }
+        $this->replacers[$i]['rech'] = $rech;
+        $this->replacers[$i]['repl'] = $repl;
+        $this->replacers[$i]['addBy'] = $object->getName();
+        $i++;
+    }
+    
+    /**
+     * Get the replacers (array[id][rech] and array[id][repl])
+     * @return array
+     */
+    public function getReplacers() {
+        return ($this->replacers);
+    }
+    
+    /**
      * Load and set the Header
      * You can reload the Header with this function
      */
     public function loadHeader() {
-        
+        unset ($this->replacers);
+        $this->replacers = array();
+        /* Start the method "onHeaderLoad" of each plugins */
+        foreach ($this->classfiles as $classfile) {
+            $object = $classfile['object'];
+            if (method_exists($object, "onHeaderLoad"))
+                $object->onHeaderLoad();
+        }
     }
     
     /**
@@ -54,7 +83,14 @@ class core {
      * You can reload the Body with this function
      */
     public function loadBody() {
-        
+        unset ($this->replacers);
+        $this->replacers = array();
+        /* Start the method "onBodyLoad" of each plugins */
+        foreach ($this->classfiles as $classfile) {
+            $object = $classfile['object'];
+            if (method_exists($object, "onBodyLoad"))
+                $object->onBodyLoad();
+        }
     }
     
     /**
@@ -62,7 +98,14 @@ class core {
      * You can reload the Menu with this function
      */
     public function loadMenu() {
-        
+        unset ($this->replacers);
+        $this->replacers = array();
+        /* Start the method "onMenuLoad" of each plugins */
+        foreach ($this->classfiles as $classfile) {
+            $object = $classfile['object'];
+            if (method_exists($object, "onMenuLoad"))
+                $object->onMenuLoad();
+        }
     }
     
     /**
@@ -70,39 +113,14 @@ class core {
      * You can reload the Copyright with this function
      */
     public function loadCopyright() {
-        
-    }
-    
-    /**
-     * Return the Header contents after a loadHeader
-     * @return Array Header
-     */
-    public function getHeader() {
-        return ($this->header);
-    }
-    
-    /**
-     * Return the Body contents after a loadBody
-     * @return Array Body
-     */
-    public function getBody() {
-        return ($this->body);
-    }
-    
-    /**
-     * Return the Menu contents after a loadMenu
-     * @return Array Menu
-     */
-    public function getMenu() {
-        return ($this->menu);
-    }
-    
-    /**
-     * Return the Copyright contents after a loadCopyright
-     * @return Array Copyright
-     */
-    public function getCopyright() {
-        return ($this->copyright);
+        unset ($this->replacers);
+        $this->replacers = array();
+        /* Start the method "onCopirightLoad" of each plugins */
+        foreach ($this->classfiles as $classfile) {
+            $object = $classfile['object'];
+            if (method_exists($object, "onCopyrightLoad"))
+                $object->onCopyrightLoad();
+        }
     }
     
     /**
@@ -116,6 +134,8 @@ class core {
         $this->classfiles[$classfilename]['path'] = PLUGINS_PATH.$classfilename;
         $this->classfiles[$classfilename]['name'] = str_replace(".php", "", $classfilename);
         $this->classfiles[$classfilename]['object'] = new $this->classfiles[$classfilename]['name']();
+        if (method_exists($this->classfiles[$classfilename]['object'], "onLoad"))
+            $this->classfiles[$classfilename]['object']->onLoad($this);
         return (true);
     }
     

@@ -10,12 +10,23 @@
  * @version of 11 avr. 2013 16:55:21
  */
 class plugin_exemple {
+    private $pluginName = "MyPluginName";
+    private $core;
+    
+    /**
+     * Return the name of your plugin
+     * 
+     * @return string
+     */
+    public function getName() {
+        return ($this->pluginName);
+    }
     
     /**
      * On the load of the plugin
      */
-    public function onLoad() {
-        
+    public function onLoad(core $core) {
+        $this->core = $core;
     }
     
     /**
@@ -29,7 +40,7 @@ class plugin_exemple {
      * Will be called with the LoadBody
      */
     public function onBodyLoad() {
-        
+        $this->core->addReplacer("{test}", "Hello World", $this);
     }
     
     /**

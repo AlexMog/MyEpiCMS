@@ -13,8 +13,13 @@
 class template {
     private $core;
     private $header;
+    private $menu;
     private $body;
     private $copyright;
+    private $body_file = "body.html";
+    private $header_file = "header.html";
+    private $copyright_file = "copyright.html";
+    private $menu_file = "menu.html";
     
     /** On template object creation **/
     public function __construct(core $core) {
@@ -26,25 +31,73 @@ class template {
      * @return boolean True if valid template
      */
     public function isValidTemplate() {
-        if (!file_exists(TEMPLATE_PATH.$this->core->getTemplate()))
+        if (!file_exists(TEMPLATE_PATH.$this->core->getTemplate())
+                || !file_exists(TEMPLATE_PATH.$this->core->getTemplate()."/".$this->body_file)
+                || !file_exists(TEMPLATE_PATH.$this->core->getTemplate()."/".$this->header_file)
+                || !file_exists(TEMPLATE_PATH.$this->core->getTemplate()."/".$this->copyright_file)
+                || !file_exists(TEMPLATE_PATH.$this->core->getTemplate()."/".$this->menu_file))
             return (false);
         return (true);
     }
     
-    public function setHeader() {
-        
-    }
-    
-    public function setBody() {
-        
-    }
-    
-    public function setCopyright() {
-        
+    /**
+     * Init the header
+     */
+    public function initHeader() {
+        $this->core->loadHeader();
+        $rpl = $this->core->getReplacers();
+        $fp = fopen(TEMPLATE_PATH.$this->core->getTemplate()."/".$this->header_file, "r");
+        $content = fread($fp, filesize(TEMPLATE_PATH.$this->core->getTemplate()."/".$this->header_file));
+        foreach ($rpl as $replacer)
+            $content = str_replace($replacer['rech'], $replacer['repl'], $content);
+        fclose($fp);
+        $this->header = $content;
     }
     
     /**
-     * Return the Header Template
+     * Init the body
+     */
+    public function initBody() {
+        $this->core->loadBody();
+        $rpl = $this->core->getReplacers();
+        $fp = fopen(TEMPLATE_PATH.$this->core->getTemplate()."/".$this->body_file, "r");
+        $content = fread($fp, filesize(TEMPLATE_PATH.$this->core->getTemplate()."/".$this->body_file));
+        foreach ($rpl as $replacer)
+            $content = str_replace($replacer['rech'], $replacer['repl'], $content);
+        fclose($fp);
+        $this->body = $content;
+    }
+    
+    /**
+     * Init the Copyright
+     */
+    public function initCopyright() {
+        $this->core->loadCopyright();
+        $rpl = $this->core->getReplacers();
+        $fp = fopen(TEMPLATE_PATH.$this->core->getTemplate()."/".$this->copyright_file, "r");
+        $content = fread($fp, filesize(TEMPLATE_PATH.$this->core->getTemplate()."/".$this->copyright_file));
+        foreach ($rpl as $replacer)
+            $content = str_replace($replacer['rech'], $replacer['repl'], $content);
+        fclose($fp);
+        $this->copyright = $content;
+    }
+    
+    /**
+     * Init the menu
+     */
+    public function initMenu() {
+        $this->core->loadMenu();
+        $rpl = $this->core->getReplacers();
+        $fp = fopen(TEMPLATE_PATH.$this->core->getTemplate()."/".$this->menu_file, "r");
+        $content = fread($fp, filesize(TEMPLATE_PATH.$this->core->getTemplate()."/".$this->menu_file));
+        foreach ($rpl as $replacer)
+            $content = str_replace($replacer['rech'], $replacer['repl'], $content);
+        fclose($fp);
+        $this->menu = $content;
+    }
+    
+    /**
+     * Return the Header as HTML Template
      * @return String
      */
     public function getHeader() {
@@ -52,7 +105,7 @@ class template {
     }
     
     /**
-     * Return the Body Template
+     * Return the Body as HTML Template
      * @return String
      */
     public function getBody() {
@@ -60,11 +113,19 @@ class template {
     }
     
     /**
-     * Return the CopyRight Template
+     * Return the CopyRight as HTML Template
      * @return String
      */
     public function getCopyright() {
         return ($this->copyright);
+    }
+    
+    /**
+     * Return the Menu as HTML Template
+     * @return String
+     */
+    public function getMenu() {
+        return ($this->menu);
     }
 }
 
