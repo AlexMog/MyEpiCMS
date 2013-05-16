@@ -44,6 +44,8 @@ class template {
      * Init the header
      */
     public function initHeader() {
+        if ($this->core->getCoretype() == CORETYPE::DEBUG)
+            echo "Starting the initialisation of the Header... ";
         $this->core->loadHeader();
         $rpl = $this->core->getReplacers();
         $fp = fopen(TEMPLATE_PATH.$this->core->getTemplate()."/".$this->header_file, "r");
@@ -52,15 +54,28 @@ class template {
         else
             $content = "";
         foreach ($rpl as $replacer)
+        {
+            if ($this->core->getCoretype() == CORETYPE::DEBUG)
+                echo "Using replacer '".$replacer['rech']."' with value '".$replacer['repl']."'... ";
+            $tmp = $content;
             $content = str_replace($replacer['rech'], $replacer['repl'], $content);
+            if ($this->core->getCoretype() == CORETYPE::DEBUG && $tmp == $content)
+                echo "Warning: Replacement fail, '".$replacer['rech']."' not found in the template. ";
+            elseif ($this->core->getCoretype() == CORETYPE::DEBUG)
+                echo "Replacer OK. ";
+        }
         fclose($fp);
         $this->header = $content;
+        if ($this->core->getCoretype() == CORETYPE::DEBUG)
+            echo "<br />\n";
     }
     
     /**
      * Init the body
      */
     public function initBody() {
+        if ($this->core->getCoretype() == CORETYPE::DEBUG)
+            echo "Starting the initialisation of the Body... ";
         $this->core->loadBody();
         $rpl = $this->core->getReplacers();
         $fp = fopen(TEMPLATE_PATH.$this->core->getTemplate()."/".$this->body_file, "r");
@@ -69,15 +84,28 @@ class template {
         else
             $content = "";
         foreach ($rpl as $replacer)
+        {
+            if ($this->core->getCoretype() == CORETYPE::DEBUG)
+                echo "Using replacer '".$replacer['rech']."' with value '".$replacer['repl']."'... ";
+            $tmp = $content;
             $content = str_replace($replacer['rech'], $replacer['repl'], $content);
+            if ($this->core->getCoretype() == CORETYPE::DEBUG && $tmp == $content)
+                echo "Warning: Replacement fail, '".$replacer['rech']."' not found in the template. ";
+            elseif ($this->core->getCoretype() == CORETYPE::DEBUG)
+                echo "Replacer OK. ";
+        }
         fclose($fp);
         $this->body = $content;
+        if ($this->core->getCoretype() == CORETYPE::DEBUG)
+            echo "<br />\n";
     }
     
     /**
      * Init the Copyright
      */
     public function initCopyright() {
+                if ($this->core->getCoretype() == CORETYPE::DEBUG)
+            echo "Starting the initialisation of the Copyright... ";
         $this->core->loadCopyright();
         $rpl = $this->core->getReplacers();
         $fp = fopen(TEMPLATE_PATH.$this->core->getTemplate()."/".$this->copyright_file, "r");
@@ -86,15 +114,27 @@ class template {
         else
             $content = "";
         foreach ($rpl as $replacer)
+        {
+            if ($this->core->getCoretype() == CORETYPE::DEBUG)
+                echo "Using replacer '".$replacer['rech']."' with value '".$replacer['repl']."'... ";
+            $tmp = $content;
             $content = str_replace($replacer['rech'], $replacer['repl'], $content);
-        fclose($fp);
+            if ($this->core->getCoretype() == CORETYPE::DEBUG && $tmp == $content)
+                echo "Warning: Replacement fail, '".$replacer['rech']."' not found in the template. ";
+            elseif ($this->core->getCoretype() == CORETYPE::DEBUG)
+                echo "Replacer OK. ";
+        }        fclose($fp);
         $this->copyright = $content;
+        if ($this->core->getCoretype() == CORETYPE::DEBUG)
+            echo "<br />\n";
     }
     
     /**
      * Init the menu
      */
     public function initMenu() {
+        if ($this->core->getCoretype() == CORETYPE::DEBUG)
+            echo "Starting the initialisation of the Menu... ";
         $this->core->loadMenu();
         $rpl = $this->core->getReplacers();
         $fp = fopen(TEMPLATE_PATH.$this->core->getTemplate()."/".$this->menu_file, "r");
@@ -103,9 +143,20 @@ class template {
         else
             $content = "";
         foreach ($rpl as $replacer)
+        {
+            if ($this->core->getCoretype() == CORETYPE::DEBUG)
+                echo "Using replacer '".$replacer['rech']."' with value '".$replacer['repl']."'... ";
+            $tmp = $content;
             $content = str_replace($replacer['rech'], $replacer['repl'], $content);
+            if ($this->core->getCoretype() == CORETYPE::DEBUG && $tmp == $content)
+                echo "Warning: Replacement fail, '".$replacer['rech']."' not found in the template. ";
+            elseif ($this->core->getCoretype() == CORETYPE::DEBUG)
+                echo "Replacer OK. ";
+        }
         fclose($fp);
         $this->menu = $content;
+        if ($this->core->getCoretype() == CORETYPE::DEBUG)
+            echo "<br />\n";
     }
     
     /**

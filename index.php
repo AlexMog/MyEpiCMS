@@ -12,10 +12,8 @@
 require_once(__DIR__."/inc/vars.inc.php");
 require_once(__DIR__."/inc/classes.inc.php");
 
-if (file_exists(__DIR__."/install") && !file_exists(__DIR__."/install/.locked"))
-        exit("<h1><font color='red'>The folder \"install\" is not locked. Have you finished the installation?</font></h1>");
-
-$core = new core(CORETYPE::DEBUG);
+// You can change CORETYPE::RELASE by CORETYPE::DEBUG to use debug mode.
+$core = new core(CORETYPE::RELEASE);
 require_once PLUGINS_PATH."register_plugins.php";
 if (($tab = $core->loadPlugins()) !== true)
 {

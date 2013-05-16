@@ -27,6 +27,15 @@ class core {
      */
     public function __construct($coretype = CORETYPE::DEBUG) {
         $this->coretype = $coretype;
+        if ($this->coretype == CORETYPE::DEBUG)
+            echo "Using MyEpiCMS version ".VERSION."<br />\n";
+    }
+    
+     /**
+     * Return the Coretype
+     */
+    public function getCoretype() {
+        return ($this->coretype);
     }
     
     /**
@@ -39,7 +48,8 @@ class core {
      */
     public function addReplacer($rech, $repl, $object) {
         static $i = 0;
-        
+        if ($this->coretype == CORETYPE::DEBUG)
+            echo "Adding the replacer ".$rech." with the replacing sentence ".$repl." from the plugin ".$object->getName()."... ";
         foreach ($this->replacers as $replacer) {
             if ($replacer['rech'] == $rech) {
                 if (method_exists($object, "getName") && method_exists($replacer['addBy'], "getName"))
@@ -68,6 +78,8 @@ class core {
      * You can reload the Header with this function
      */
     public function loadHeader() {
+        if ($this->coretype == CORETYPE::DEBUG)
+            echo "Loading Header... ";
         unset ($this->replacers);
         $this->replacers = array();
         /* Start the method "onHeaderLoad" of each plugins */
@@ -83,6 +95,8 @@ class core {
      * You can reload the Body with this function
      */
     public function loadBody() {
+        if ($this->coretype == CORETYPE::DEBUG)
+            echo "Loading Body... ";
         unset ($this->replacers);
         $this->replacers = array();
         /* Start the method "onBodyLoad" of each plugins */
@@ -98,6 +112,8 @@ class core {
      * You can reload the Menu with this function
      */
     public function loadMenu() {
+        if ($this->coretype == CORETYPE::DEBUG)
+            echo "Loading Menu... ";
         unset ($this->replacers);
         $this->replacers = array();
         /* Start the method "onMenuLoad" of each plugins */
@@ -113,6 +129,8 @@ class core {
      * You can reload the Copyright with this function
      */
     public function loadCopyright() {
+        if ($this->coretype == CORETYPE::DEBUG)
+            echo "Loading Copyright... ";
         unset ($this->replacers);
         $this->replacers = array();
         /* Start the method "onCopirightLoad" of each plugins */
@@ -143,9 +161,14 @@ class core {
     {
         $i = 0;
         $errors = array();
+        if ($this->coretype == CORETYPE::DEBUG)
+            echo "Loading Plugins...<br />\n";
         foreach ($this->plugins_prepare as $value)
         {
+            
             $classname = str_replace(".php", "", $value);
+            if ($this->coretype == CORETYPE::DEBUG)
+                echo "Loading plugin '".$classname."'... <br />\n";
             $class = new $classname();
             if ($class->isPlugin() && !$this->addPluginClass($value))
             {
