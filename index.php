@@ -27,12 +27,12 @@ $template = new template($core);
 if (!$template->isValidTemplate())
     exit("<h1><font color='red'>Template is not valid.</font></h1>Put a valid template in the template path.");
 $template->initHeader();
-echo $template->getHeader();
 $template->initMenu();
-echo $template->getMenu();
 $template->initBody();
-echo $template->getBody();
 $template->initCopyright();
+echo $template->getHeader();
+echo $template->getMenu();
+echo $template->getBody();
 echo $template->getCopyright();
 
 ?>

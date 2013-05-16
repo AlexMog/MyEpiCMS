@@ -43,7 +43,7 @@ class core {
         foreach ($this->replacers as $replacer) {
             if ($replacer['rech'] == $rech) {
                 if (method_exists($object, "getName") && method_exists($replacer['addBy'], "getName"))
-                    echo "Conflict with plugin ".$replacer['addBy']->getName()." and ".$object->getName()."";
+                    echo "Conflict with plugin ".$replacer['addBy']->getName()." and ".$object->getName().". They are using the same replacer: ".$rech.".";
                 else
                     echo "Conflict of plugins finded. The \"getName\" method is not set. Cannot find the plugin who is conflicting.";
                 exit();
@@ -51,7 +51,7 @@ class core {
         }
         $this->replacers[$i]['rech'] = $rech;
         $this->replacers[$i]['repl'] = $repl;
-        $this->replacers[$i]['addBy'] = $object->getName();
+        $this->replacers[$i]['addBy'] = $object;
         $i++;
     }
     
