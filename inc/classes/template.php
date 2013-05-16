@@ -47,7 +47,10 @@ class template {
         $this->core->loadHeader();
         $rpl = $this->core->getReplacers();
         $fp = fopen(TEMPLATE_PATH.$this->core->getTemplate()."/".$this->header_file, "r");
-        $content = fread($fp, filesize(TEMPLATE_PATH.$this->core->getTemplate()."/".$this->header_file));
+        if (filesize(TEMPLATE_PATH.$this->core->getTemplate()."/".$this->header_file) > 0)
+            $content = fread($fp, filesize(TEMPLATE_PATH.$this->core->getTemplate()."/".$this->header_file));
+        else
+            $content = "";
         foreach ($rpl as $replacer)
             $content = str_replace($replacer['rech'], $replacer['repl'], $content);
         fclose($fp);
@@ -61,7 +64,10 @@ class template {
         $this->core->loadBody();
         $rpl = $this->core->getReplacers();
         $fp = fopen(TEMPLATE_PATH.$this->core->getTemplate()."/".$this->body_file, "r");
-        $content = fread($fp, filesize(TEMPLATE_PATH.$this->core->getTemplate()."/".$this->body_file));
+        if (filesize(TEMPLATE_PATH.$this->core->getTemplate()."/".$this->body_file) > 0)
+            $content = fread($fp, filesize(TEMPLATE_PATH.$this->core->getTemplate()."/".$this->body_file));
+        else
+            $content = "";
         foreach ($rpl as $replacer)
             $content = str_replace($replacer['rech'], $replacer['repl'], $content);
         fclose($fp);
@@ -75,7 +81,10 @@ class template {
         $this->core->loadCopyright();
         $rpl = $this->core->getReplacers();
         $fp = fopen(TEMPLATE_PATH.$this->core->getTemplate()."/".$this->copyright_file, "r");
-        $content = fread($fp, filesize(TEMPLATE_PATH.$this->core->getTemplate()."/".$this->copyright_file));
+        if (filesize(TEMPLATE_PATH.$this->core->getTemplate()."/".$this->copyright_file) > 0)
+            $content = fread($fp, filesize(TEMPLATE_PATH.$this->core->getTemplate()."/".$this->copyright_file));
+        else
+            $content = "";
         foreach ($rpl as $replacer)
             $content = str_replace($replacer['rech'], $replacer['repl'], $content);
         fclose($fp);
@@ -89,7 +98,10 @@ class template {
         $this->core->loadMenu();
         $rpl = $this->core->getReplacers();
         $fp = fopen(TEMPLATE_PATH.$this->core->getTemplate()."/".$this->menu_file, "r");
-        $content = fread($fp, filesize(TEMPLATE_PATH.$this->core->getTemplate()."/".$this->menu_file));
+        if (filesize(TEMPLATE_PATH.$this->core->getTemplate()."/".$this->menu_file) > 0)
+            $content = fread($fp, filesize(TEMPLATE_PATH.$this->core->getTemplate()."/".$this->menu_file));
+        else
+            $content = "";
         foreach ($rpl as $replacer)
             $content = str_replace($replacer['rech'], $replacer['repl'], $content);
         fclose($fp);
