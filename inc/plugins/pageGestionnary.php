@@ -22,7 +22,7 @@ class pageGestionnary {
         $this->core = $core;
         if (isset($_GET['page'])) {
             $page = str_replace("/", "", $_GET['page']);
-            if (file_exists(__DIR__."/pageGestionnary/".$page.".php")) {
+            if (file_exists(__DIR__."/pagesGestionnary/".$page.".php")) {
                 include_once __DIR__."/pagesGestionnary/".$page.".php";
                 $this->title = $title;
                 $this->content = $content;
