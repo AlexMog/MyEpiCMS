@@ -170,11 +170,15 @@ class core {
             if ($this->coretype == CORETYPE::DEBUG)
                 echo "Loading plugin '".$classname."'... <br />\n";
             $class = new $classname();
-            if ($class->isPlugin() && !$this->addPluginClass($value))
+            if (method_exists($class, "isPlugin") && $class->isPlugin() && !$this->addPluginClass($value))
             {
                 $errors[$i]['class_name'] = $value;
                 $errors[$i]['error_type'] = "The plugin '$classname' didn't exist.";
                 $i++;
+            }
+            else if (!method_exists($class, "isPlugin")) {
+                $errors[$i]['class_name'] = $value;
+                $errors[$i]['error_type'] = "The plugin '$classname' didn't have any isPlugin() method.";
             }
             unset($class);
         }
