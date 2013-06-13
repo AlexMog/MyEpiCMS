@@ -18,12 +18,12 @@ require_once PLUGINS_PATH."register_plugins.php";
 if (($tab = $core->loadPlugins()) !== true)
 {
     foreach ($tab as $value)
-        echo "<font color='red'>ERROR with plugin '".$value['class_name']."': ".$value['error_type']."</font><br />";
+        echo "<font color='red'>ERROR with plugin '".$value['class_name']."': ".$value['error_type']."</font><br />\n";
     exit();
 }
 $template = new template($core);
 if (!$template->isValidTemplate())
-    exit("<h1><font color='red'>Template is not valid.</font></h1>Put a valid template in the template path.");
+    exit("<h1><font color='red'>Template is not valid.</font></h1>\nPut a valid template in the template path.\n");
 $template->initHeader();
 $template->initMenu();
 $template->initBody();

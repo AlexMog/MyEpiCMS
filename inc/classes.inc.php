@@ -9,6 +9,10 @@
  * @version of 11 avr. 2013 15:43:14
  */
 
+/**
+ * Load a class with her classname
+ * @param type $classname The class name
+ */
 function loadClass($classname)
 {
     if (file_exists(CLASS_PATH.$classname.'.php'))
