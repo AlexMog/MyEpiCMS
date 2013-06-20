@@ -16,10 +16,10 @@ class template {
     private $menu;
     private $body;
     private $copyright;
-    private $body_file = "body.html";
-    private $header_file = "header.html";
-    private $copyright_file = "copyright.html";
-    private $menu_file = "menu.html";
+    public static $body_file = "body.html";
+    public static $header_file = "header.html";
+    public static $copyright_file = "copyright.html";
+    public static $menu_file = "menu.html";
     
     /** On template object creation **/
     public function __construct(core $core) {
@@ -32,10 +32,10 @@ class template {
      */
     public function isValidTemplate() {
         if (!file_exists(TEMPLATE_PATH.$this->core->getTemplate())
-                || !file_exists(TEMPLATE_PATH.$this->core->getTemplate()."/".$this->body_file)
-                || !file_exists(TEMPLATE_PATH.$this->core->getTemplate()."/".$this->header_file)
-                || !file_exists(TEMPLATE_PATH.$this->core->getTemplate()."/".$this->copyright_file)
-                || !file_exists(TEMPLATE_PATH.$this->core->getTemplate()."/".$this->menu_file))
+                || !file_exists(TEMPLATE_PATH.$this->core->getTemplate()."/".template::$body_file)
+                || !file_exists(TEMPLATE_PATH.$this->core->getTemplate()."/".template::$copyright_file)
+                || !file_exists(TEMPLATE_PATH.$this->core->getTemplate()."/".template::$header_file)
+                || !file_exists(TEMPLATE_PATH.$this->core->getTemplate()."/".template::$menu_file))
             return (false);
         return (true);
     }
@@ -48,9 +48,9 @@ class template {
             echo "Starting the initialisation of the Header... ";
         $this->core->loadHeader();
         $rpl = $this->core->getReplacers();
-        $fp = fopen(TEMPLATE_PATH.$this->core->getTemplate()."/".$this->header_file, "r");
-        if (filesize(TEMPLATE_PATH.$this->core->getTemplate()."/".$this->header_file) > 0)
-            $content = fread($fp, filesize(TEMPLATE_PATH.$this->core->getTemplate()."/".$this->header_file));
+        $fp = fopen(TEMPLATE_PATH.$this->core->getTemplate()."/".template::$header_file, "r");
+        if (filesize(TEMPLATE_PATH.$this->core->getTemplate()."/".template::$header_file) > 0)
+            $content = fread($fp, filesize(TEMPLATE_PATH.$this->core->getTemplate()."/".template::$header_file));
         else
             $content = "";
         foreach ($rpl as $replacer)
@@ -78,9 +78,9 @@ class template {
             echo "Starting the initialisation of the Body... ";
         $this->core->loadBody();
         $rpl = $this->core->getReplacers();
-        $fp = fopen(TEMPLATE_PATH.$this->core->getTemplate()."/".$this->body_file, "r");
-        if (filesize(TEMPLATE_PATH.$this->core->getTemplate()."/".$this->body_file) > 0)
-            $content = fread($fp, filesize(TEMPLATE_PATH.$this->core->getTemplate()."/".$this->body_file));
+        $fp = fopen(TEMPLATE_PATH.$this->core->getTemplate()."/".template::$body_file, "r");
+        if (filesize(TEMPLATE_PATH.$this->core->getTemplate()."/".template::$body_file) > 0)
+            $content = fread($fp, filesize(TEMPLATE_PATH.$this->core->getTemplate()."/".template::$body_file));
         else
             $content = "";
         foreach ($rpl as $replacer)
@@ -108,9 +108,9 @@ class template {
             echo "Starting the initialisation of the Copyright... ";
         $this->core->loadCopyright();
         $rpl = $this->core->getReplacers();
-        $fp = fopen(TEMPLATE_PATH.$this->core->getTemplate()."/".$this->copyright_file, "r");
-        if (filesize(TEMPLATE_PATH.$this->core->getTemplate()."/".$this->copyright_file) > 0)
-            $content = fread($fp, filesize(TEMPLATE_PATH.$this->core->getTemplate()."/".$this->copyright_file));
+        $fp = fopen(TEMPLATE_PATH.$this->core->getTemplate()."/".template::$copyright_file, "r");
+        if (filesize(TEMPLATE_PATH.$this->core->getTemplate()."/".template::$copyright_file) > 0)
+            $content = fread($fp, filesize(TEMPLATE_PATH.$this->core->getTemplate()."/".template::$copyright_file));
         else
             $content = "";
         foreach ($rpl as $replacer)
@@ -137,9 +137,9 @@ class template {
             echo "Starting the initialisation of the Menu... ";
         $this->core->loadMenu();
         $rpl = $this->core->getReplacers();
-        $fp = fopen(TEMPLATE_PATH.$this->core->getTemplate()."/".$this->menu_file, "r");
-        if (filesize(TEMPLATE_PATH.$this->core->getTemplate()."/".$this->menu_file) > 0)
-            $content = fread($fp, filesize(TEMPLATE_PATH.$this->core->getTemplate()."/".$this->menu_file));
+        $fp = fopen(TEMPLATE_PATH.$this->core->getTemplate()."/".template::$menu_file, "r");
+        if (filesize(TEMPLATE_PATH.$this->core->getTemplate()."/".template::$menu_file) > 0)
+            $content = fread($fp, filesize(TEMPLATE_PATH.$this->core->getTemplate()."/".template::$menu_file));
         else
             $content = "";
         foreach ($rpl as $replacer)
