@@ -13,7 +13,6 @@
 /* General vars */
 define("VERSION", "0.5.3");
 
-/* Path vars */
 define("TEMPLATE_PATH", __DIR__."/../templates/");
 define("PLUGINS_PATH", __DIR__."/plugins/");
 define("CLASS_PATH", __DIR__."/classes/");

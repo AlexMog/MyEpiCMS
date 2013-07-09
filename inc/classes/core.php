@@ -27,8 +27,7 @@ class core {
      */
     public function __construct($coretype = CORETYPE::DEBUG) {
         $this->coretype = $coretype;
-        if ($this->coretype == CORETYPE::DEBUG)
-            echo "Using MyEpiCMS version ".VERSION."<br />\n";
+        echo "<!-- Using MyEpiCMS Framework version ".VERSION." -->\n";
     }
     
      /**
