@@ -7,7 +7,16 @@
  * @author moghra_a
  */
 class SQLConnector {
-    /* TODO */
+    private $pdo_object;
+    
+    public function __construct() {
+        try {
+            $this->pdo_object = new PDO('mysql:host='.MYSQL_SERVER.';dbname='.MYSQL_DB, MYSQL_USER, MYSQL_PASSWORD);
+        } catch(Exception $e) {
+            echo "MySQL error: ".$e->getMessage();
+            die();
+        }
+    }
 }
 
 ?>

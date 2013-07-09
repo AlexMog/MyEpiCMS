@@ -143,15 +143,18 @@ class core {
     
     /**
      * Return True if the class is correctly added. False if not.
+     * 
+     * @param Object $obj the object created in the loadPlugin method
      * @param String $classfilename the file class name
      * @return Boolean
      */
-    public function addPluginClass($classfilename) {
+    public function addPluginClass($classfilename, $obj) {
         if (!file_exists(PLUGINS_PATH.$classfilename))
                 return (false);
         $this->classfiles[$classfilename]['path'] = PLUGINS_PATH.$classfilename;
         $this->classfiles[$classfilename]['name'] = str_replace(".php", "", $classfilename);
-        $this->classfiles[$classfilename]['object'] = new $this->classfiles[$classfilename]['name']();
+        //$this->classfiles[$classfilename]['object'] = new $this->classfiles[$classfilename]['name']();
+        $this->classfiles[$classfilename]['object'] = $obj;
         if (method_exists($this->classfiles[$classfilename]['object'], "onLoad"))
             $this->classfiles[$classfilename]['object']->onLoad($this);
         return (true);
@@ -170,7 +173,7 @@ class core {
             if ($this->coretype == CORETYPE::DEBUG)
                 echo "Loading plugin '".$classname."'... <br />\n";
             $class = new $classname();
-            if (method_exists($class, "isPlugin") && $class->isPlugin() && !$this->addPluginClass($value))
+            if (method_exists($class, "isPlugin") && $class->isPlugin() && !$this->addPluginClass($value, $class))
             {
                 $errors[$i]['class_name'] = $value;
                 $errors[$i]['error_type'] = "The plugin '$classname' didn't exist.";
@@ -180,7 +183,6 @@ class core {
                 $errors[$i]['class_name'] = $value;
                 $errors[$i]['error_type'] = "The plugin '$classname' didn't have any isPlugin() method.";
             }
-            unset($class);
         }
         if (count($errors) != 0)
             return ($errors);
