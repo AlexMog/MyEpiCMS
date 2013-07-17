@@ -1,15 +1,11 @@
 MyEpiCMS
 ========
 
-MyEpiCMS is a small and light CMS (Content Management System) API (Application Programming Interface) who provide a core where you can add plugins and templates.
-With this plugins, you can create many things:
-- Page gestionnary
-- Download methods
-- Administration, etc...
+MyEpiCMS is a small FrameWork who provides a work environnement for Web developping.
+He is created and turned to provide "Plugins places" and to generate the content of the website using the plugins execution and one or multiple templates.
 
-We will need some programmers to help us and test our application (and create plugins, maby :))
+This project is on constant developpement. Don't hesitate to send me requests or messages if you have any questions or if you want to report a bug.
 
-You want to have MySQL? Just create a simple plugin who connects to a database ;) -you can use our MySQL class helper-
-
+Thank's for using MyEpiCMS
 
 OpenSource FTW!
