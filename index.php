@@ -13,8 +13,7 @@ require_once(__DIR__."/inc/vars.inc.php");
 require_once(__DIR__."/inc/classes.inc.php");
 
 // You can change CORETYPE::RELASE by CORETYPE::DEBUG to use debug mode.
-$core = new core(CORETYPE::RELEASE);
-require_once PLUGINS_PATH."register_plugins.php";
+$core = new core(CORETYPE::DEBUG, LOADMETHOD::AUTO);
 if (($tab = $core->loadPlugins()) !== true)
 {
     foreach ($tab as $value)
