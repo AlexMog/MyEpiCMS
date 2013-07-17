@@ -17,8 +17,8 @@ function loadClass($classname)
 {
     if (file_exists(CLASS_PATH.$classname.'.php'))
         require_once CLASS_PATH.$classname.'.php';
-    else if (file_exists(PLUGINS_PATH.$classname.'.php'))
-        require_once PLUGINS_PATH.$classname.'.php';
+    else if (file_exists(realpath(PLUGINS_PATH.$classname.'/plugin.php')))
+        require_once PLUGINS_PATH.$classname.'/plugin.php';
     else
         exit ("Class $classname not found...");
 }

@@ -71,7 +71,7 @@ class globalVars {
      * Setting the class as a plugin
      * @return boolean
      */
-    public function isPlugin() {
+    public function isEnabled() {
         return (true);
     }
 }

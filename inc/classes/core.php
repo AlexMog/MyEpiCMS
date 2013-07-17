@@ -14,6 +14,11 @@ class CORETYPE {
     const RELEASE = 1;
 }
 
+class LOADMETHOD {
+    const AUTO = 0;
+    const MANUAL = 1;
+}
+
 class core {
     private $classfiles = array();
     private $coretype;
@@ -21,12 +26,14 @@ class core {
     private $plugins_prepare = array();
     /* Var who define the replacers */
     private $replacers;
+    private $loadmethod;
     
     /**
      * Called on the construction of the object
      */
-    public function __construct($coretype = CORETYPE::DEBUG) {
+    public function __construct($coretype = CORETYPE::DEBUG, $loadmethod = LOADMETHOD::AUTO) {
         $this->coretype = $coretype;
+        $this->loadmethod = $loadmethod;
         echo "<!-- Using MyEpiCMS Framework version ".VERSION." -->\n";
     }
     
@@ -150,7 +157,7 @@ class core {
     public function addPluginClass($classfilename, $obj) {
         if (!file_exists(PLUGINS_PATH.$classfilename))
                 return (false);
-        $this->classfiles[$classfilename]['path'] = PLUGINS_PATH.$classfilename;
+        $this->classfiles[$classfilename]['path'] = PLUGINS_PATH.$classfilename."/plugin.php";
         $this->classfiles[$classfilename]['name'] = str_replace(".php", "", $classfilename);
         //$this->classfiles[$classfilename]['object'] = new $this->classfiles[$classfilename]['name']();
         $this->classfiles[$classfilename]['object'] = $obj;
@@ -161,10 +168,14 @@ class core {
     
     public function loadPlugins()
     {
-        $i = 0;
-        $errors = array();
         if ($this->coretype == CORETYPE::DEBUG)
             echo "Loading Plugins...<br />\n";
+        if ($this->loadmethod == LOADMETHOD::AUTO)
+            $this->loadDirPlugins (PLUGINS_PATH);
+        else
+            require_once PLUGINS_PATH."register_plugins.php";
+        $i = 0;
+        $errors = array();
         foreach ($this->plugins_prepare as $value)
         {
             
@@ -172,20 +183,39 @@ class core {
             if ($this->coretype == CORETYPE::DEBUG)
                 echo "Loading plugin '".$classname."'... <br />\n";
             $class = new $classname();
-            if (method_exists($class, "isPlugin") && $class->isPlugin() && !$this->addPluginClass($value, $class))
+            if (method_exists($class, "isEnabled") && $class->isEnabled() && !$this->addPluginClass($value, $class))
             {
                 $errors[$i]['class_name'] = $value;
                 $errors[$i]['error_type'] = "The plugin '$classname' didn't exist.";
                 $i++;
             }
-            else if (!method_exists($class, "isPlugin")) {
+            else if (!method_exists($class, "isEnabled")) {
                 $errors[$i]['class_name'] = $value;
-                $errors[$i]['error_type'] = "The plugin '$classname' didn't have any isPlugin() method.";
+                $errors[$i]['error_type'] = "The plugin '$classname' didn't have any isEnabled() method.";
             }
         }
         if (count($errors) != 0)
             return ($errors);
         return (true);
+    }
+    
+    /**
+     * Loads the plugins in the plugin directory
+     */
+    private function loadDirPlugins($directory) {
+        if ($this->coretype == CORETYPE::DEBUG)
+            echo "Using automatic loader on directory '".realpath($directory)."'<br />\n";
+        if (($dh = opendir(realpath($directory)))) {
+            while (($entry = readdir($dh)) !== false) {
+                if ($entry != '.' && $entry != ".." && is_dir($directory.$entry))
+                    if (file_exists($directory.$entry."/plugin.php")) {
+                        if ($this->coretype == CORETYPE::DEBUG)
+                            echo "Finded plugin ".$entry."<br />\n";
+                        $this->preparePlugin ($entry);
+                    }
+            }
+        } else
+            exit("Error while opening the plugins directory.");
     }
     
     /**
@@ -205,6 +235,17 @@ class core {
      */
     public function getPluginsClassPath() {
         return ($this->classfilename);
+    }
+    
+    /**
+     * Verify if the plugin is registered. If it is, returns true.
+     * @param type $plugin_name The name of the plugin (name of the directory)
+     * @return type
+     */
+    public function pluginIsRegistered($plugin_name) {
+        if (in_array($plugin_name, $this->classfiles))
+            return (true);
+        return (false);
     }
     
     /**

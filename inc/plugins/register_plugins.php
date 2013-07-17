@@ -7,7 +7,7 @@
  * 	@filesource register_plugins.php
  * */
 
-$core->preparePlugin("globalVars.php");
-$core->preparePlugin("pageGestionnary.php");
+$core->preparePlugin("globalVars");
+$core->preparePlugin("pageGestionnary");
 
 ?>
