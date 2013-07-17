@@ -58,9 +58,9 @@ class plugin_exemple {
     }
     
     /**
-     * Verify if it's a plugin. Return true if you want to be a plugin, false if not.
+     * Verify if the plugin is enabled
      */
-    public function isPlugin() {
+    public function isEnabled() {
         return (true);
     }
 }

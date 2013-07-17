@@ -67,9 +67,9 @@ class pageGestionnary {
     }
     
     /*
-     * Define the class as plugin
+     * Define the plugin to be enabled
      */
-    public function isPlugin() {
+    public function isEnabled() {
         return (true);
     }
 }
